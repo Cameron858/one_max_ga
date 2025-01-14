@@ -1,0 +1,1 @@
+from one_max_ga.chromosome import OneMaxChromosome
