@@ -21,6 +21,20 @@ def test_init_with_different_args(length, genes, should_raise_error):
         OneMaxChromosome(length=length, genes=genes)
 
 
+@pytest.mark.parametrize(
+    "genes", [pytest.param((0, 0, 0), id="tuple"), pytest.param({0, 1}, id="set")]
+)
+def test_invalid_gene_type_raises_value_error(genes):
+    with pytest.raises(ValueError):
+        OneMaxChromosome(genes=genes)
+
+
+@pytest.mark.parametrize("genes", [[1, 0, 2], [3, 4, 5], [1, 0, "1"], ["1", "0", "1"]])
+def test_invalid_gene_value_raises_value_error(genes):
+    with pytest.raises(ValueError):
+        OneMaxChromosome(genes=genes)
+
+
 def test_init_random_genes(mocker):
     mock_random = mocker.patch("random.randint", side_effect=[0, 1, 0, 1, 0])
     chromosome = OneMaxChromosome(length=5)
