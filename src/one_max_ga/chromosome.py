@@ -73,7 +73,7 @@ class OneMaxChromosome:
             # randomly select each gene from each parent
             new_genes = [random.choice(genes) for genes in zip(self.genes, other.genes)]
 
-        child = OneMaxChromosome(length=len(new_genes), genes=new_genes)
+        child = OneMaxChromosome(genes=new_genes)
         return child
 
     def direct(self) -> Self:
