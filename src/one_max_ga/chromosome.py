@@ -5,17 +5,28 @@ from typing import Literal, Self
 class OneMaxChromosome:
     """Represents a chromosome for the One Max Problem."""
 
-    def __init__(self, length, genes=None):
+    def __init__(self, length=None, genes: list = None):
 
-        if not isinstance(length, int) or length <= 0:
-            raise ValueError("Length must be a positive integer.")
+        # ensure either args are given, but not both
+        if (genes is None and length is None) or (
+            genes is not None and length is not None
+        ):
+            raise ValueError("Either 'length' or 'genes' must be given, but not both.")
 
-        self.length = length
-
-        if genes is None:
-            self.genes = [random.randint(0, 1) for _ in range(length)]
-        else:
+        # create chromosome with given genes
+        if genes is not None:
+            # validate given gene value
+            if not isinstance(genes, list) or not all(g in [0, 1] for g in genes):
+                raise ValueError("Genes must be a list of values in [0, 1]")
             self.genes = genes
+            self.length = len(genes)
+        # randomly generate genes
+        else:
+            # validate given length value
+            if not isinstance(length, int) or length <= 0:
+                raise ValueError("Length must be a positive integer.")
+            self.length = length
+            self.genes = [random.randint(0, 1) for _ in range(length)]
 
     def __repr__(self):
         return f"OneMaxChromosome(length={self.length}, genes={self.genes})"
