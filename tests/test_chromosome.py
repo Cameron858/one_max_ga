@@ -107,3 +107,11 @@ def test_mutate_always_changes_genes(mocker):
 @pytest.mark.parametrize("l", [3, 5, 7, 9])
 def test_chromosome_length_is_correct(l):
     assert len(OneMaxChromosome(length=l)) == l
+
+
+@pytest.mark.parametrize(
+    "genes, fitness", [([0, 0, 0], 0), ([1], 1), ([1, 0, 1], 2), ([1, 1, 1, 1], 4)]
+)
+def test_fitness_score_is_calculated_properly(genes, fitness):
+    chromosome = OneMaxChromosome(length=len(genes), genes=genes)
+    assert chromosome.fitness() == fitness
