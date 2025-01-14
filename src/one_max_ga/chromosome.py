@@ -102,7 +102,8 @@ class OneMaxChromosome:
         mutated_genes = []
         for gene in self.genes:
             if random.random() < chance:
-                mutated_genes.append(random.randint(0, 1))
+                # flip gene i.e. 0 -> 1 and 1 -> 0
+                mutated_genes.append(1 - gene)
             else:
                 mutated_genes.append(gene)
 
