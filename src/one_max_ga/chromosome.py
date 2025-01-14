@@ -85,7 +85,7 @@ class OneMaxChromosome:
         Self
             A new OneMaxChromosome instance with the same length and genes as the original.
         """
-        child = OneMaxChromosome(length=self.length, genes=self.genes)
+        child = OneMaxChromosome(genes=self.genes)
         return child
 
     def mutate(self, chance: float):
