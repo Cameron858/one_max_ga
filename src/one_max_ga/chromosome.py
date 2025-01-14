@@ -32,9 +32,7 @@ class OneMaxChromosome:
 
         if method == "uniform":
             # randomly select each gene from each parent
-            new_genes = []
-            for genes in zip(self.genes, other.genes):
-                new_genes.append(random.choice(genes))
+            new_genes = [random.choice(genes) for genes in zip(self.genes, other.genes)]
 
         child = OneMaxChromosome(length=len(new_genes), genes=new_genes)
         return child
