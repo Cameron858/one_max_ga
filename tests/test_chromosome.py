@@ -3,6 +3,24 @@ from one_max_ga.chromosome import OneMaxChromosome
 import pytest
 
 
+@pytest.mark.parametrize(
+    "length, genes, should_raise_error",
+    [
+        (None, None, True),
+        (5, [0, 1, 0], True),
+        (5, None, False),
+        (None, [1, 0, 1], False),
+    ],
+)
+def test_init_with_different_args(length, genes, should_raise_error):
+
+    if should_raise_error:
+        with pytest.raises(ValueError):
+            OneMaxChromosome(length=length, genes=genes)
+    else:
+        OneMaxChromosome(length=length, genes=genes)
+
+
 def test_init_random_genes(mocker):
     mock_random = mocker.patch("random.randint", side_effect=[0, 1, 0, 1, 0])
     chromosome = OneMaxChromosome(length=5)
@@ -13,7 +31,7 @@ def test_init_random_genes(mocker):
 
 def test_init_with_genes():
     genes = [1, 0, 1, 1, 0]
-    chromosome = OneMaxChromosome(length=5, genes=genes)
+    chromosome = OneMaxChromosome(genes=genes)
     assert chromosome.genes == genes
 
 
@@ -91,7 +109,7 @@ def test_valid_mutation_value_raises_no_error(mutation_chance):
 )
 def test_mutation_produces_different_genes(original, mutated):
 
-    p1 = OneMaxChromosome(length=5, genes=original)
+    p1 = OneMaxChromosome(genes=original)
     p1.mutate(chance=1)
     assert p1.genes == mutated
 
@@ -99,7 +117,7 @@ def test_mutation_produces_different_genes(original, mutated):
 def test_mutate_always_changes_genes(mocker):
     mocker.patch("random.random", side_effect=[0.1, 0.8, 0.2, 0.9, 0.05])
     original_genes = [0, 1, 0, 1, 1]
-    p1 = OneMaxChromosome(length=5, genes=original_genes)
+    p1 = OneMaxChromosome(genes=original_genes)
     p1.mutate(chance=0.5)
     assert p1.genes == [1, 1, 1, 1, 0]
 
@@ -113,5 +131,5 @@ def test_chromosome_length_is_correct(l):
     "genes, fitness", [([0, 0, 0], 0), ([1], 1), ([1, 0, 1], 2), ([1, 1, 1, 1], 4)]
 )
 def test_fitness_score_is_calculated_properly(genes, fitness):
-    chromosome = OneMaxChromosome(length=len(genes), genes=genes)
+    chromosome = OneMaxChromosome(genes=genes)
     assert chromosome.fitness() == fitness
