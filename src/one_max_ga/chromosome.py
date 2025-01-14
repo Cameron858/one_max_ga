@@ -5,6 +5,10 @@ from typing import Literal, Self
 class OneMaxChromosome:
 
     def __init__(self, length, genes=None):
+
+        if not isinstance(length, int) or length <= 0:
+            raise ValueError("Length must be a positive integer.")
+
         self.length = length
 
         if genes is None:
