@@ -96,7 +96,7 @@ class OneMaxChromosome:
         ValueError
             If `chance` is not between 0 and 1.
         """
-        if not (0 <= chance <= 1):
+        if not (0.0 <= chance <= 1.0):
             raise ValueError("Mutation chance must be between 0 and 1.")
 
         mutated_genes = []
