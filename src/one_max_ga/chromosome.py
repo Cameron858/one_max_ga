@@ -111,3 +111,14 @@ class OneMaxChromosome:
 
     def __len__(self):
         return self.length
+
+    def fitness(self) -> int:
+        """
+        Calculate the fitness of the chromosome.
+
+        Returns
+        -------
+        int
+            The fitness score (sum of '1's).
+        """
+        return sum(self.genes)
