@@ -18,8 +18,8 @@ class Population:
         self, reverse: bool = True, inplace: bool = False
     ) -> list[OneMaxChromosome]:
 
-        sorted_chromosomes = self.chromosomes.sort(
-            key=lambda c: c.fitness(), reverse=reverse
+        sorted_chromosomes = sorted(
+            self.chromosomes, key=lambda c: c.fitness(), reverse=reverse
         )
 
         if inplace:
