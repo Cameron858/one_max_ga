@@ -12,3 +12,16 @@ class Population:
         self.chromosomes = [
             OneMaxChromosome(length=chromosome_length) for _ in range(size)
         ]
+
+    def sort_by_fitness(
+        self, reverse: bool = True, inplace: bool = False
+    ) -> list[OneMaxChromosome]:
+
+        sorted_chromosomes = self.chromosomes.sort(
+            key=lambda c: c.fitness(), reverse=reverse
+        )
+
+        if inplace:
+            self.chromosomes = sorted_chromosomes
+
+        return sorted_chromosomes
