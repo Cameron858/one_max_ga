@@ -17,7 +17,8 @@ class ElitismSelector(Selector):
 
     def select(self, population: Population) -> Population:
 
-        elite_chromosomes = population.sort_by_fitness()[: self.elite_size]
+        sorted_chromosomes = population.sort_by_fitness()
+        elite_chromosomes = sorted_chromosomes[: self.elite_size]
         elite_pop = Population.from_chromosomes(elite_chromosomes)
 
         return elite_pop
