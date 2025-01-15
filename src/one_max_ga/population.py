@@ -1,3 +1,4 @@
+from typing import Self
 from .chromosome import OneMaxChromosome
 
 
@@ -25,3 +26,11 @@ class Population:
             self.chromosomes = sorted_chromosomes
 
         return sorted_chromosomes
+
+    @classmethod
+    def from_chromosomes(cls, chromosomes: list[OneMaxChromosome]) -> Self:
+
+        pop = Population(size=len(chromosomes), chromosome_length=chromosomes[0].length)
+        pop.chromosomes = chromosomes
+
+        return pop
