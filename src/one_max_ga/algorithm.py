@@ -34,19 +34,23 @@ class GeneticAlgorithm:
         # default to terminating at max_generations
         self.terminator = terminator or MaxGenerationsTerminator(max_generations)
 
+        self.generation = 0
+
         # attatch logger
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def run(self):
         """"""
         population = Population(self.pop_size, self.chromosome_length)
-        generation = 0
+        self.generation = 0
 
         # either terminate at max_generations or when the given Terminator dictates so.
-        while (generation <= self.max_generations) and (
-            not self.terminator.terminate(population=population, generation=generation)
+        while (self.generation <= self.max_generations) and (
+            not self.terminator.terminate(
+                population=population, generation=self.generation
+            )
         ):
-            self.logger.info(f"Running generation {generation + 1}")
+            self.logger.info(f"Running generation {self.generation + 1}")
 
             population.sort_by_fitness()
 
@@ -81,10 +85,10 @@ class GeneticAlgorithm:
                 new_population.append(child)
 
             population = new_population
-            generation += 1
+            self.generation += 1
 
         # log termination reason
-        if generation >= self.max_generations:
+        if self.generation >= self.max_generations:
             self.logger.info("Terminating due to reaching max generations.")
         else:
             self.logger.info(
