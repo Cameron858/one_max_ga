@@ -1,4 +1,5 @@
 import logging
+import random
 from one_max_ga.population import Population
 from one_max_ga.terminators import Terminator, MaxGenerationsTerminator
 
@@ -47,6 +48,39 @@ class GeneticAlgorithm:
         ):
             self.logger.info(f"Running generation {generation + 1}")
 
+            population.sort_by_fitness()
+
+            # log best member of the population
+            best_member = population[0]
+            self.logger.info(f"Best member: {best_member}")
+
+            # use selection_rate to determine top N% of chromosomes that will be used to breed the next generation
+            # ensure the rounded int is in the range [2, pop_size] inclusive
+            top_n_chromosomes = round(self.pop_size * self.selection_rate)
+            if top_n_chromosomes < 2:
+                top_n_chromosomes = 2
+            elif top_n_chromosomes > self.pop_size:
+                top_n_chromosomes = self.pop_size
+
+            parent_pool = population[:top_n_chromosomes]
+
+            # breed new population
+            new_population = []
+            while len(new_population) < self.pop_size:
+                # decide on crossover or direct reproduction
+                # crossover
+                if random.random() < self.crossover_rate:
+                    parent_1, parent_2 = parent_pool.random(k=2)
+                    child = parent_1.crossover(parent_2)
+                # direct
+                else:
+                    parent = parent_pool.random()[0]
+                    child = parent.direct()
+
+                child.mutate(chance=self.mutation_rate)
+                new_population.append(child)
+
+            population = new_population
             generation += 1
 
         # log termination reason
