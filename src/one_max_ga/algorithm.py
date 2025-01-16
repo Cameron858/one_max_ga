@@ -1,6 +1,5 @@
-from typing import Callable, Optional
 from one_max_ga.population import Population
-from one_max_ga.selectors import Selector
+from one_max_ga.terminators import Terminator, MaxGenerationsTerminator
 
 
 class GeneticAlgorithm:
@@ -11,8 +10,7 @@ class GeneticAlgorithm:
         chromosome_length: int,
         crossover_rate: float,
         mutation_rate: float,
-        selector: Selector,
-        terminator: Optional[Callable[[Population, int], bool]] = None,
+        terminator: Terminator = None,
         max_generations: int = 100,
     ):
 
@@ -26,21 +24,16 @@ class GeneticAlgorithm:
         self.chromosome_length = chromosome_length
         self.crossover_rate = crossover_rate
         self.mutation_rate = mutation_rate
-        self.selector = selector
-        self.terminator = terminator or self._default_terminator
         self.max_generations = max_generations
 
         # init default attrs
         self.population = None
         self.current_generation = 0
 
-    def _default_terminator(self, generation: int) -> bool:
-        """
-        Default terminator.
-
-        Terminates the algorithm after given 'max_generations'
-        """
-        return generation >= self.max_generations
+        if terminator:
+            self.terminator = terminator
+        else:
+            self.terminator = MaxGenerationsTerminator(self.max_generations)
 
     def initialise_population(self):
         self.population = Population(self.pop_size, self.chromosome_length)
