@@ -11,6 +11,7 @@ class GeneticAlgorithm:
         chromosome_length: int,
         crossover_rate: float,
         mutation_rate: float,
+        selection_rate: float = 0.2,
         max_generations: int = 100,
         terminator: Terminator = None,
     ):
@@ -20,11 +21,14 @@ class GeneticAlgorithm:
             raise ValueError(f"'crossover_rate' must be between 0 and 1")
         if not (0 <= mutation_rate <= 1):
             raise ValueError(f"'mutation_rate' must be between 0 and 1")
+        if not (0 <= selection_rate <= 1):
+            raise ValueError(f"'selection_rate' must be between 0 and 1")
 
         self.pop_size = pop_size
         self.chromosome_length = chromosome_length
         self.crossover_rate = crossover_rate
         self.mutation_rate = mutation_rate
+        self.selection_rate = selection_rate
         self.max_generations = max_generations
         # default to terminating at max_generations
         self.terminator = terminator or MaxGenerationsTerminator(max_generations)
