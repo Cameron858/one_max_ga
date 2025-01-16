@@ -130,3 +130,4 @@ def test_run_stops_at_max_generations_with_mocked_terminator(mocker, max_generat
     ga.run()
 
     assert ga.generation == max_generations
+    assert mock_terminator.terminate.call_count == max_generations
