@@ -17,9 +17,7 @@ class Population:
     def __getitem__(self, indices):
         return self.chromosomes[indices]
 
-    def sort_by_fitness(
-        self, reverse: bool = True, inplace: bool = False
-    ) -> list[OneMaxChromosome]:
+    def sort_by_fitness(self, reverse: bool = True) -> list[OneMaxChromosome]:
 
         self.chromosomes.sort(key=lambda c: c.fitness(), reverse=reverse)
         return self.chromosomes
