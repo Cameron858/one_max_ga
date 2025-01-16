@@ -104,3 +104,29 @@ def test_terminator_defaults_to_correct_terminator():
     ga = GeneticAlgorithm(100, 10, 0.5, 0.01)
 
     assert isinstance(ga.terminator, MaxGenerationsTerminator)
+
+
+@pytest.mark.parametrize("max_generations", [1, 50, 100])
+def test_run_stops_at_max_generations_with_default_terminator(max_generations):
+    ga = GeneticAlgorithm(100, 10, 0.5, 0.01, max_generations=max_generations)
+    ga.run()
+
+    assert ga.generation == max_generations
+
+
+@pytest.mark.parametrize("max_generations", [1, 50, 100])
+def test_run_stops_at_max_generations_with_mocked_terminator(mocker, max_generations):
+    """This test mocks a Terminator object to always return False.
+
+    This isolates the built in behaviour of (self.generation < self.max_generations)
+    """
+    mock_terminator = mocker.MagicMock()
+    mock_terminator.terminate.return_value = False
+
+    ga = GeneticAlgorithm(
+        100, 10, 0.5, 0.01, max_generations=max_generations, terminator=mock_terminator
+    )
+
+    ga.run()
+
+    assert ga.generation == max_generations
