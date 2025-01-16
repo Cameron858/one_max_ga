@@ -26,14 +26,7 @@ class GeneticAlgorithm:
         self.mutation_rate = mutation_rate
         self.max_generations = max_generations
 
-        # init default attrs
-        self.population = None
-        self.current_generation = 0
-
         if terminator:
             self.terminator = terminator
         else:
             self.terminator = MaxGenerationsTerminator(self.max_generations)
-
-    def initialise_population(self):
-        self.population = Population(self.pop_size, self.chromosome_length)
