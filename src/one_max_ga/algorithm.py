@@ -47,7 +47,7 @@ class GeneticAlgorithm:
         population = Population(self.pop_size, self.chromosome_length)
 
         # either terminate at max_generations or when the given Terminator dictates so.
-        while (self.generation <= self.max_generations) and (
+        while (self.generation < self.max_generations) and (
             not self.terminator.terminate(
                 population=population, generation=self.generation
             )
