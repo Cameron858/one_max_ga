@@ -131,3 +131,8 @@ def test_run_stops_at_max_generations_with_mocked_terminator(mocker, max_generat
 
     assert ga.generation == max_generations
     assert mock_terminator.terminate.call_count == max_generations
+
+
+@pytest.mark.parametrize("rate", [0.0, 1.0])
+def test_selection_rates_on_boundries_does_not_produce_index_error(rate):
+    GeneticAlgorithm(100, 10, 0.5, 0.01, selection_rate=rate)
