@@ -41,8 +41,10 @@ class GeneticAlgorithm:
 
     def run(self):
         """"""
-        population = Population(self.pop_size, self.chromosome_length)
         self.generation = 0
+
+        # generate initial population
+        population = Population(self.pop_size, self.chromosome_length)
 
         # either terminate at max_generations or when the given Terminator dictates so.
         while (self.generation <= self.max_generations) and (
@@ -84,7 +86,7 @@ class GeneticAlgorithm:
                 child.mutate(chance=self.mutation_rate)
                 new_population.append(child)
 
-            population = new_population
+            population = Population.from_chromosomes(new_population)
             self.generation += 1
 
         # log termination reason
