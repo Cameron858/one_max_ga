@@ -15,7 +15,8 @@ class Population:
         ]
 
     def __getitem__(self, indices):
-        return self.chromosomes[indices]
+        new_pop = Population.from_chromosomes(self.chromosomes[indices])
+        return new_pop
 
     def sort_by_fitness(self, reverse: bool = True) -> list[OneMaxChromosome]:
 
