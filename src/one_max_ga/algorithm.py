@@ -61,12 +61,10 @@ class GeneticAlgorithm:
             self.logger.info(f"Best member: {best_member}")
 
             # use selection_rate to determine top N% of chromosomes that will be used to breed the next generation
-            # ensure the rounded int is in the range [2, pop_size] inclusive
-            top_n_chromosomes = round(self.pop_size * self.selection_rate)
-            if top_n_chromosomes < 2:
-                top_n_chromosomes = 2
-            elif top_n_chromosomes > self.pop_size:
-                top_n_chromosomes = self.pop_size
+            # ensure the rounded int is in the range [2, pop_size]
+            top_n_chromosomes = max(
+                2, min(self.pop_size, round(self.pop_size * self.selection_rate))
+            )
 
             parent_pool = population[:top_n_chromosomes]
 
