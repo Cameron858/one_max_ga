@@ -1,6 +1,7 @@
 import pytest
 from pytest import param
 from one_max_ga.algorithm import GeneticAlgorithm
+from one_max_ga.terminators import MaxGenerationsTerminator
 
 
 @pytest.mark.parametrize(
@@ -96,3 +97,10 @@ def test_valid_rates_do_not_raise_error(crossover, mutation, selection):
         mutation_rate=mutation,
         selection_rate=selection,
     )
+
+
+def test_terminator_defaults_to_correct_terminator():
+
+    ga = GeneticAlgorithm(100, 10, 0.5, 0.01)
+
+    assert isinstance(ga.terminator, MaxGenerationsTerminator)
