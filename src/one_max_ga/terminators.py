@@ -8,7 +8,7 @@ class Terminator(ABC):
     def __init__(self):
         self.reason = ""
 
-    @abstractmethod()
+    @abstractmethod
     def terminate(self, population: Population, generation: int) -> bool:
         pass
 
