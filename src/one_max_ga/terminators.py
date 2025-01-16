@@ -5,6 +5,9 @@ from one_max_ga.population import Population
 
 class Terminator(ABC):
 
+    def __init__(self):
+        self.reason = ""
+
     @abstractmethod()
     def terminate(self, population: Population, generation: int) -> bool:
         pass
@@ -13,8 +16,9 @@ class Terminator(ABC):
 class MaxGenerationsTerminator(Terminator):
 
     def __init__(self, max_generations: int):
-        self.max_generations = max_generations
         super().__init__()
+        self.max_generations = max_generations
+        self.reason = "Max generations reached."
 
     def terminate(self, population, generation):
         """Return `True` if the given generation is equal to or greater than the `max_generations`, otherwise returns `False`."""
