@@ -35,7 +35,9 @@ class Population:
         return self.chromosomes
 
     def random(self, k=1) -> list[OneMaxChromosome]:
-        return random.choices(self.chromosomes, k=k)
+        if k > len(self):
+            raise ValueError("'k' cannot be greater than the population size.")
+        return random.sample(self.chromosomes, k=k)
 
     @classmethod
     def from_chromosomes(cls, chromosomes: list[OneMaxChromosome]) -> Self:
