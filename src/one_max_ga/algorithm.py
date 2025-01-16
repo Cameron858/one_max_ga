@@ -1,3 +1,4 @@
+import logging
 from one_max_ga.population import Population
 from one_max_ga.terminators import Terminator, MaxGenerationsTerminator
 
@@ -10,8 +11,8 @@ class GeneticAlgorithm:
         chromosome_length: int,
         crossover_rate: float,
         mutation_rate: float,
-        terminator: Terminator = None,
         max_generations: int = 100,
+        terminator: Terminator = None,
     ):
 
         # validate rates
@@ -25,8 +26,29 @@ class GeneticAlgorithm:
         self.crossover_rate = crossover_rate
         self.mutation_rate = mutation_rate
         self.max_generations = max_generations
+        # default to terminating at max_generations
+        self.terminator = terminator or MaxGenerationsTerminator(max_generations)
 
-        if terminator:
-            self.terminator = terminator
+        # attatch logger
+        self.logger = logging.getLogger(self.__class__.__name__)
+
+    def run(self):
+        """"""
+        population = Population(self.pop_size, self.chromosome_length)
+        generation = 0
+
+        # either terminate at max_generations or when the given Terminator dictates so.
+        while (generation <= self.max_generations) and (
+            not self.terminator.terminate(population=population, generation=generation)
+        ):
+            self.logger.info(f"Running generation {generation + 1}")
+
+            generation += 1
+
+        # log termination reason
+        if generation >= self.max_generations:
+            self.logger.info("Terminating due to reaching max generations.")
         else:
-            self.terminator = MaxGenerationsTerminator(self.max_generations)
+            self.logger.info(
+                f"Terminating due to custom terminator condition: {self.terminator.reason}"
+            )
