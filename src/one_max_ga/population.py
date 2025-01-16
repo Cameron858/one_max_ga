@@ -1,5 +1,5 @@
 from typing import Self
-from .chromosome import OneMaxChromosome
+from one_max_ga.chromosome import OneMaxChromosome
 
 
 class Population:
@@ -13,6 +13,9 @@ class Population:
         self.chromosomes = [
             OneMaxChromosome(length=chromosome_length) for _ in range(size)
         ]
+
+    def __getitem__(self, indices):
+        return self.chromosomes[indices]
 
     def sort_by_fitness(
         self, reverse: bool = True, inplace: bool = False
@@ -34,3 +37,8 @@ class Population:
         pop.chromosomes = chromosomes
 
         return pop
+
+
+if __name__ == "__main__":
+
+    p = Population(10, 5)
