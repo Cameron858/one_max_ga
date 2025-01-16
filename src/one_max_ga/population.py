@@ -21,14 +21,8 @@ class Population:
         self, reverse: bool = True, inplace: bool = False
     ) -> list[OneMaxChromosome]:
 
-        sorted_chromosomes = sorted(
-            self.chromosomes, key=lambda c: c.fitness(), reverse=reverse
-        )
-
-        if inplace:
-            self.chromosomes = sorted_chromosomes
-
-        return sorted_chromosomes
+        self.chromosomes.sort(key=lambda c: c.fitness(), reverse=reverse)
+        return self.chromosomes
 
     @classmethod
     def from_chromosomes(cls, chromosomes: list[OneMaxChromosome]) -> Self:
