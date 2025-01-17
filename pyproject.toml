@@ -1,12 +1,16 @@
 [tool.poetry]
 name = "one-max-ga"
 version = "0.1.0"
-description = ""
+description = "An implementation of a Genetic Algorithm to solver the One-Max problem."
 authors = ["Cameron <cameronwood858@googlemail.com>"]
 readme = "README.md"
+homepage = "https://github.com/Cameron858/one_max_ga"
+repository = "https://github.com/Cameron858/one_max_ga"
 
 [tool.poetry.dependencies]
 python = ">=3.11"
+
+[tool.poetry.dev-dependencies]
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
 pytest-mock = "^3.14.0"
