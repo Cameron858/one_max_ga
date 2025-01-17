@@ -77,3 +77,20 @@ def test_sampling_more_items_than_pop_size_raises_error(population):
     with pytest.raises(ValueError) as excinfo:
         population.random(k=len(population) + 5)
     assert str(excinfo.value) == "'k' cannot be greater than the population size."
+
+
+def test_best_method_returns_fittest_member():
+
+    best = OneMaxChromosome(genes=[1, 1, 1])
+
+    chromosomes = [
+        OneMaxChromosome(genes=[0, 0, 0]),
+        OneMaxChromosome(genes=[0, 0, 1]),
+        best,
+    ]
+
+    population = Population.from_chromosomes(chromosomes)
+
+    assert population.best() == best
+    assert population.best().genes == [1, 1, 1]
+    assert population.best().fitness() == 3
