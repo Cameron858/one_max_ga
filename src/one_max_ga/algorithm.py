@@ -57,8 +57,7 @@ class GeneticAlgorithm:
             population.sort_by_fitness()
 
             # log best member of the population
-            best_member = population[0]
-            self.logger.info(f"Best member: {best_member}")
+            self.logger.info(f"Best member: {population.best()}")
 
             # use selection_rate to determine top N% of chromosomes that will be used to breed the next generation
             # ensure the rounded int is in the range [2, pop_size]

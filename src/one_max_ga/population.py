@@ -15,7 +15,7 @@ class Population:
             OneMaxChromosome(length=chromosome_length) for _ in range(size)
         ]
 
-    def __getitem__(self, indices):
+    def __getitem__(self, indices) -> Self:
 
         # from_chromosomes() expects a list
         # single value indexing a list returns the member, NOT in a list
@@ -38,6 +38,9 @@ class Population:
         if k > len(self):
             raise ValueError("'k' cannot be greater than the population size.")
         return random.sample(self.chromosomes, k=k)
+
+    def best(self) -> OneMaxChromosome:
+        return sorted(self.chromosomes, key=lambda c: c.fitness(), reverse=True)[0]
 
     @classmethod
     def from_chromosomes(cls, chromosomes: list[OneMaxChromosome]) -> Self:
