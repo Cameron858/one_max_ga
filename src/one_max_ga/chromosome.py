@@ -29,7 +29,7 @@ class OneMaxChromosome:
             self.genes = [random.randint(0, 1) for _ in range(length)]
 
     def __repr__(self):
-        return f"OneMaxChromosome(length={self.length}, genes={self.genes})"
+        return f"OneMaxChromosome(length={self.length}, genes={self.genes}, fitness={self.fitness()})"
 
     def crossover(
         self, other: Self, method: Literal["uniform", "single", "two"] = "uniform"

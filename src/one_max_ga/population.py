@@ -1,5 +1,6 @@
+import random
 from typing import Self
-from .chromosome import OneMaxChromosome
+from one_max_ga.chromosome import OneMaxChromosome
 
 
 class Population:
@@ -14,18 +15,29 @@ class Population:
             OneMaxChromosome(length=chromosome_length) for _ in range(size)
         ]
 
-    def sort_by_fitness(
-        self, reverse: bool = True, inplace: bool = False
-    ) -> list[OneMaxChromosome]:
+    def __getitem__(self, indices):
 
-        sorted_chromosomes = sorted(
-            self.chromosomes, key=lambda c: c.fitness(), reverse=reverse
-        )
+        # from_chromosomes() expects a list
+        # single value indexing a list returns the member, NOT in a list
+        if isinstance(indices, int):
+            new_pop = Population.from_chromosomes([self.chromosomes[indices]])
+        else:
+            new_pop = Population.from_chromosomes(self.chromosomes[indices])
 
-        if inplace:
-            self.chromosomes = sorted_chromosomes
+        return new_pop
 
-        return sorted_chromosomes
+    def __len__(self):
+        return len(self.chromosomes)
+
+    def sort_by_fitness(self, reverse: bool = True) -> list[OneMaxChromosome]:
+
+        self.chromosomes.sort(key=lambda c: c.fitness(), reverse=reverse)
+        return self.chromosomes
+
+    def random(self, k=1) -> list[OneMaxChromosome]:
+        if k > len(self):
+            raise ValueError("'k' cannot be greater than the population size.")
+        return random.sample(self.chromosomes, k=k)
 
     @classmethod
     def from_chromosomes(cls, chromosomes: list[OneMaxChromosome]) -> Self:
@@ -34,3 +46,8 @@ class Population:
         pop.chromosomes = chromosomes
 
         return pop
+
+
+if __name__ == "__main__":
+
+    p = Population(10, 5)
